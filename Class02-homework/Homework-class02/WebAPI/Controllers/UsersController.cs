@@ -43,9 +43,9 @@ namespace WebAPI.Controllers
             return users;
         }
 
-        // GET: api/Users/5
-        [HttpGet("{id}")]
-        public ActionResult<User> Get(int id)
+        // GET: api/Users/checkId/3
+        [HttpGet("checkId/{id}")]
+        public ActionResult<User> Check(int id)
         {
             try
             {
@@ -59,6 +59,23 @@ namespace WebAPI.Controllers
             catch (Exception ex)
             {
                 return BadRequest($"{ex.Message}");
+            }
+        }
+
+        [HttpGet("{id}")]
+        public ActionResult<User> Get(int id)
+        {
+            try
+            {
+                return users[id - 1];
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+                return NotFound($"No user with id ${id}!");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest($"BROKEN: {ex.Message}");
             }
         }
 
